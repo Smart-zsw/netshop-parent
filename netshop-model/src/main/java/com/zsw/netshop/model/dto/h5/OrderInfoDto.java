@@ -1,8 +1,7 @@
 package com.zsw.netshop.model.dto.h5;
 
-import com.atguigu.spzx.model.entity.order.OrderItem;
 import lombok.Data;
-
+import com.zsw.netshop.model.entity.order.OrderItem;
 import java.math.BigDecimal;
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package com.zsw.netshop.model.entity.product;
 
-import com.atguigu.spzx.model.entity.base.BaseEntity;
+import com.zsw.netshop.model.entity.base.BaseEntity;
 import lombok.Data;
 
 @Data

@@ -1,7 +1,7 @@
 package com.zsw.netshop.model.vo.h5;
 
-import com.atguigu.spzx.model.entity.product.Category;
-import com.atguigu.spzx.model.entity.product.ProductSku;
+import com.zsw.netshop.model.entity.product.Category;
+import com.zsw.netshop.model.entity.product.ProductSku;
 import lombok.Data;
 
 import java.util.List;

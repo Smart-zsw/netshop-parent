@@ -1,6 +1,6 @@
 package com.zsw.netshop.model.entity.order;
 
-import com.atguigu.spzx.model.entity.base.BaseEntity;
+import com.zsw.netshop.model.entity.base.BaseEntity;
 import lombok.Data;
 
 import java.math.BigDecimal;

@@ -1,6 +1,6 @@
 package com.zsw.netshop.model.vo.h5;
 
-import com.atguigu.spzx.model.entity.order.OrderItem;
+import com.zsw.netshop.model.entity.order.OrderItem;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
