@@ -1,10 +1,12 @@
 package com.zsw.netshop.manager.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.zsw.netshop.common.exception.ShopException;
 import com.zsw.netshop.manager.mapper.SysUserMapper;
 import com.zsw.netshop.manager.service.SysUserService;
 import com.zsw.netshop.model.dto.system.LoginDto;
 import com.zsw.netshop.model.entity.system.SysUser;
+import com.zsw.netshop.model.vo.common.ResultCodeEnum;
 import com.zsw.netshop.model.vo.system.LoginVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -35,7 +37,8 @@ public class SysUserServiceImpl implements SysUserService {
 
         //3 如果根据用户名查不到对应信息，用户不存在，返回错误信息
         if (sysUser == null) {
-            throw new RuntimeException("用户名不存在");
+//            throw new RuntimeException("用户名不存在");
+            throw new ShopException(ResultCodeEnum.LOGIN_ERROR);
         }
 
         //4 如果根据用户名查询到用户信息，用户存在
@@ -47,7 +50,8 @@ public class SysUserServiceImpl implements SysUserService {
 
         //比较
         if (!input_password.equals(database_password)) {
-            throw new RuntimeException("密码不正确");
+//            throw new RuntimeException("密码不正确");
+            throw new ShopException(ResultCodeEnum.LOGIN_ERROR);
         }
 
         //6 如果密码一致，登陆成功，如果密码不一致登陆失败
