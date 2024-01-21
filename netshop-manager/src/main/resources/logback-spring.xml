@@ -4,7 +4,6 @@
     <contextName>logback</contextName>
 
     <!-- 日志的输出目录 -->
-<!--    <property name="log.path" value="D://logs//spzx-manager//logs" />-->
     <property name="log.path" value="./logs" />
 
 
