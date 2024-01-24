@@ -14,4 +14,13 @@ public interface SysUserMapper {
 
     //用户条件分页查询接口
     List<SysUser> findByPage(SysUserDto sysUserDto);
+
+    //用户添加
+    void save(SysUser sysUser);
+
+    //用户修改
+    void update(SysUser sysUser);
+
+    //用户删除
+    void delete(Long userId);
 }

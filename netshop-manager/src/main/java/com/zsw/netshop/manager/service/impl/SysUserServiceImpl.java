@@ -115,6 +115,35 @@ public class SysUserServiceImpl implements SysUserService {
         PageHelper.startPage(pageNum,pageSize);
         List<SysUser> list = sysUserMapper.findByPage(sysUserDto);
         PageInfo<SysUser> pageInfo = new PageInfo<>(list);
-        return null;
+        return pageInfo;
+    }
+
+    //用户添加
+    @Override
+    public void saveSysUser(SysUser sysUser) {
+        //1.判断用户名不能重复
+        String userName = sysUser.getUserName();
+        SysUser dbSysUser = sysUserMapper.selectUserInfoByUserName(userName);
+        if (dbSysUser != null) {
+            throw new ShopException(ResultCodeEnum.USER_NAME_IS_EXISTS);
+        }
+
+        //2.输入密码进行加密
+        String md5_password = DigestUtils.md5DigestAsHex(sysUser.getPassword().getBytes());
+        sysUser.setPassword(md5_password);
+
+        sysUserMapper.save(sysUser);
+    }
+
+    //用户修改
+    @Override
+    public void updateSysUser(SysUser sysUser) {
+        sysUserMapper.update(sysUser);
+    }
+
+    //用户删除
+    @Override
+    public void deleteById(Long userId) {
+       sysUserMapper.delete(userId);
     }
 }

@@ -19,4 +19,13 @@ public interface SysUserService {
 
     //用户条件分页查询接口
     PageInfo<SysUser> findByPage(Integer pageNum, Integer pageSize, SysUserDto sysUserDto);
+
+    //用户添加
+    void saveSysUser(SysUser sysUser);
+
+    //用户修改
+    void updateSysUser(SysUser sysUser);
+
+    //用户删除
+    void deleteById(Long userId);
 }
