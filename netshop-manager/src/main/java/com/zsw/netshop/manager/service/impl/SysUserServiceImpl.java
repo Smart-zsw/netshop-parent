@@ -2,10 +2,13 @@ package com.zsw.netshop.manager.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.zsw.netshop.common.exception.ShopException;
 import com.zsw.netshop.manager.mapper.SysUserMapper;
 import com.zsw.netshop.manager.service.SysUserService;
 import com.zsw.netshop.model.dto.system.LoginDto;
+import com.zsw.netshop.model.dto.system.SysUserDto;
 import com.zsw.netshop.model.entity.system.SysUser;
 import com.zsw.netshop.model.vo.common.ResultCodeEnum;
 import com.zsw.netshop.model.vo.system.LoginVo;
@@ -14,6 +17,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -101,5 +105,16 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public void logout(String token) {
         redisTemplate.delete("user:login" + token);
+    }
+
+    //用户条件分页查询接口
+    @Override
+    public PageInfo<SysUser> findByPage(Integer pageNum,
+                                        Integer pageSize,
+                                        SysUserDto sysUserDto) {
+        PageHelper.startPage(pageNum,pageSize);
+        List<SysUser> list = sysUserMapper.findByPage(sysUserDto);
+        PageInfo<SysUser> pageInfo = new PageInfo<>(list);
+        return null;
     }
 }

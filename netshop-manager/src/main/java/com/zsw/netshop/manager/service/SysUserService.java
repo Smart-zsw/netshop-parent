@@ -1,6 +1,8 @@
 package com.zsw.netshop.manager.service;
 
+import com.github.pagehelper.PageInfo;
 import com.zsw.netshop.model.dto.system.LoginDto;
+import com.zsw.netshop.model.dto.system.SysUserDto;
 import com.zsw.netshop.model.entity.system.SysUser;
 import com.zsw.netshop.model.vo.system.LoginVo;
 
@@ -14,4 +16,7 @@ public interface SysUserService {
 
     //用户退出
     void logout(String token);
+
+    //用户条件分页查询接口
+    PageInfo<SysUser> findByPage(Integer pageNum, Integer pageSize, SysUserDto sysUserDto);
 }
