@@ -21,3 +21,9 @@ netshop:
     noAuthUrls:
       - /admin/system/index/login
       - /admin/system/index/generateValidateCode
+
+  minio:
+    endpointUrl: http://174.139.20.140:9001
+    accessKey: admin
+    secreKey: admin123456
+    bucketName: netshop-bucket
