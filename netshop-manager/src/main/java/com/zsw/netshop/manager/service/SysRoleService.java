@@ -21,5 +21,5 @@ public interface SysRoleService {
     void deleteById(Long roleId);
 
     //查询所有角色
-    Map<String, Object> findAll();
+    Map<String, Object> findAll(Long userId);
 }

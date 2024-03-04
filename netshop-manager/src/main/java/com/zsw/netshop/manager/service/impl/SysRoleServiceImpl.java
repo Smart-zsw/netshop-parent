@@ -3,6 +3,7 @@ package com.zsw.netshop.manager.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zsw.netshop.manager.mapper.SysRoleMapper;
+import com.zsw.netshop.manager.mapper.SysRoleUserMapper;
 import com.zsw.netshop.manager.service.SysRoleService;
 import com.zsw.netshop.model.dto.system.SysRoleDto;
 import com.zsw.netshop.model.entity.system.SysRole;
@@ -18,6 +19,10 @@ public class SysRoleServiceImpl implements SysRoleService {
 
     @Autowired
     private SysRoleMapper sysRoleMapper;
+
+    @Autowired
+    private SysRoleUserMapper sysRoleUserMapper;
+
     //角色列表的方法
     @Override
     public PageInfo<SysRole> findByPage(SysRoleDto sysRoleDto, Integer current, Integer limit) {
@@ -49,13 +54,17 @@ public class SysRoleServiceImpl implements SysRoleService {
 
     //查询所有角色
     @Override
-    public Map<String, Object> findAll() {
+    public Map<String, Object> findAll(Long userId) {
         //1 查询所有角色
         List<SysRole> roleList = sysRoleMapper.findAll();
 
-        //TODO 2 分配过的角色列表
+        //2 分配过的角色列表
+        //根据userId查询用户分配过角色id列表
+        List<Long> roleIds = sysRoleUserMapper.selectRoleIdsByUserId(userId);
+
         Map<String,Object> map = new HashMap<>();
         map.put("allRolesList",roleList);
+        map.put("sysUserRoles",roleIds);
 
         return map;
     }

@@ -2,6 +2,8 @@ package com.zsw.netshop.manager.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface SysRoleUserMapper {
 
@@ -10,4 +12,7 @@ public interface SysRoleUserMapper {
 
     //2 重新分配新数据
     void doAssign(Long userId, Long roleId);
+
+    //根据userId查询用户分配过角色id列表
+    List<Long> selectRoleIdsByUserId(Long userId);
 }
