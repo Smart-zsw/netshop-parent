@@ -5,8 +5,10 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zsw.netshop.common.exception.ShopException;
+import com.zsw.netshop.manager.mapper.SysRoleUserMapper;
 import com.zsw.netshop.manager.mapper.SysUserMapper;
 import com.zsw.netshop.manager.service.SysUserService;
+import com.zsw.netshop.model.dto.system.AssginRoleDto;
 import com.zsw.netshop.model.dto.system.LoginDto;
 import com.zsw.netshop.model.dto.system.SysUserDto;
 import com.zsw.netshop.model.entity.system.SysUser;
@@ -26,6 +28,9 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Autowired
     private SysUserMapper sysUserMapper;
+
+    @Autowired
+    private SysRoleUserMapper sysRoleUserMapper;
 
     @Autowired
     private RedisTemplate<String,String> redisTemplate;
@@ -97,8 +102,7 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public SysUser getUserInfo(String token) {
         String userJson = redisTemplate.opsForValue().get("user:login" + token);
-        SysUser sysUser = JSON.parseObject(userJson, SysUser.class);
-        return sysUser;
+        return JSON.parseObject(userJson, SysUser.class);
     }
 
     //用户退出
@@ -114,8 +118,7 @@ public class SysUserServiceImpl implements SysUserService {
                                         SysUserDto sysUserDto) {
         PageHelper.startPage(pageNum,pageSize);
         List<SysUser> list = sysUserMapper.findByPage(sysUserDto);
-        PageInfo<SysUser> pageInfo = new PageInfo<>(list);
-        return pageInfo;
+        return new PageInfo<>(list);
     }
 
     //用户添加
@@ -148,5 +151,19 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public void deleteById(Long userId) {
        sysUserMapper.delete(userId);
+    }
+
+    //用户分配角色
+    @Override
+    public void doAssign(AssginRoleDto assginRoleDto) {
+        //1 根据userId删除用户之前分配角色数据
+        sysRoleUserMapper.deleteByUserId(assginRoleDto.getUserId());
+
+        //2 重新分配新数据
+        List<Long> roleIdList = assginRoleDto.getRoleIdList();
+        //遍历得到每个角色id
+        for (Long roleId:roleIdList) {
+            sysRoleUserMapper.doAssign(assginRoleDto.getUserId(),roleId);
+        }
     }
 }

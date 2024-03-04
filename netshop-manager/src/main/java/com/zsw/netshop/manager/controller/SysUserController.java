@@ -2,6 +2,7 @@ package com.zsw.netshop.manager.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.zsw.netshop.manager.service.SysUserService;
+import com.zsw.netshop.model.dto.system.AssginRoleDto;
 import com.zsw.netshop.model.dto.system.SysUserDto;
 import com.zsw.netshop.model.entity.system.SysUser;
 import com.zsw.netshop.model.vo.common.Result;
@@ -46,4 +47,11 @@ public class SysUserController {
         return Result.build(null,ResultCodeEnum.SUCCESS);
     }
 
+    //用户分配角色
+    //保存分配数据
+    @PostMapping("/doAssign")
+    public Result doAssign(@RequestBody AssginRoleDto assginRoleDto) {
+        sysUserService.doAssign(assginRoleDto);
+        return Result.build(null,ResultCodeEnum.SUCCESS);
+    }
 }

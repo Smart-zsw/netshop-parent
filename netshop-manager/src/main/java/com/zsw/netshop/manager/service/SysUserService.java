@@ -1,6 +1,7 @@
 package com.zsw.netshop.manager.service;
 
 import com.github.pagehelper.PageInfo;
+import com.zsw.netshop.model.dto.system.AssginRoleDto;
 import com.zsw.netshop.model.dto.system.LoginDto;
 import com.zsw.netshop.model.dto.system.SysUserDto;
 import com.zsw.netshop.model.entity.system.SysUser;
@@ -28,4 +29,7 @@ public interface SysUserService {
 
     //用户删除
     void deleteById(Long userId);
+
+    //用户分配角色
+    void doAssign(AssginRoleDto assginRoleDto);
 }
