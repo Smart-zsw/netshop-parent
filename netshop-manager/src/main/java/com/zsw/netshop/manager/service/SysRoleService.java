@@ -4,6 +4,8 @@ import com.github.pagehelper.PageInfo;
 import com.zsw.netshop.model.dto.system.SysRoleDto;
 import com.zsw.netshop.model.entity.system.SysRole;
 
+import java.util.Map;
+
 public interface SysRoleService {
 
     //角色列表的方法
@@ -17,4 +19,7 @@ public interface SysRoleService {
 
     //4.角色删除的方法
     void deleteById(Long roleId);
+
+    //查询所有角色
+    Map<String, Object> findAll();
 }

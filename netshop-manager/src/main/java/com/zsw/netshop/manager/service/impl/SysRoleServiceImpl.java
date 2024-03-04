@@ -9,7 +9,9 @@ import com.zsw.netshop.model.entity.system.SysRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class SysRoleServiceImpl implements SysRoleService {
@@ -24,8 +26,7 @@ public class SysRoleServiceImpl implements SysRoleService {
         //根据条件查询所有数据
         List<SysRole> list = sysRoleMapper.findByPage(sysRoleDto);
         //封装pageInfo对象
-        PageInfo<SysRole> pageInfo = new PageInfo<>(list);
-        return pageInfo;
+        return new PageInfo<>(list);
     }
 
     //2.角色添加的方法
@@ -44,5 +45,18 @@ public class SysRoleServiceImpl implements SysRoleService {
     @Override
     public void deleteById(Long roleId) {
         sysRoleMapper.delete(roleId);
+    }
+
+    //查询所有角色
+    @Override
+    public Map<String, Object> findAll() {
+        //1 查询所有角色
+        List<SysRole> roleList = sysRoleMapper.findAll();
+
+        //TODO 2 分配过的角色列表
+        Map<String,Object> map = new HashMap<>();
+        map.put("allRolesList",roleList);
+
+        return map;
     }
 }
