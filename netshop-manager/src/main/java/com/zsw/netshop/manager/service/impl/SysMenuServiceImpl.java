@@ -1,9 +1,11 @@
 package com.zsw.netshop.manager.service.impl;
 
+import com.zsw.netshop.common.exception.ShopException;
 import com.zsw.netshop.manager.mapper.SysMenuMapper;
 import com.zsw.netshop.manager.service.SysMenuService;
 import com.zsw.netshop.manager.utils.MenuHelper;
 import com.zsw.netshop.model.entity.system.SysMenu;
+import com.zsw.netshop.model.vo.common.ResultCodeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -27,5 +29,32 @@ public class SysMenuServiceImpl implements SysMenuService {
 
         //2 调用工具类的方法，把返回list集合封装要求数据格式
         return MenuHelper.buildTree(sysMenuList);
+    }
+
+    //菜单添加
+    @Override
+    public void save(SysMenu sysMenu) {
+        sysMenuMapper.save(sysMenu);
+    }
+
+    //菜单修改
+    @Override
+    public void update(SysMenu sysMenu) {
+        sysMenuMapper.update(sysMenu);
+    }
+
+    //菜单删除
+    @Override
+    public void removeById(Long id) {
+        //根据当前菜单id，查询是否包含子菜单
+        int count = sysMenuMapper.selectCountById(id);
+
+        //判断，count大于0，包含子菜单
+        if (count > 0) {
+            throw new ShopException(ResultCodeEnum.NODE_ERROR);
+        }
+
+        //count等于0，直接删除
+        sysMenuMapper.delete(id);
     }
 }
