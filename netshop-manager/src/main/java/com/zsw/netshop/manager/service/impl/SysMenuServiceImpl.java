@@ -2,6 +2,7 @@ package com.zsw.netshop.manager.service.impl;
 
 import com.zsw.netshop.common.exception.ShopException;
 import com.zsw.netshop.manager.mapper.SysMenuMapper;
+import com.zsw.netshop.manager.mapper.SysRoleMenuMapper;
 import com.zsw.netshop.manager.service.SysMenuService;
 import com.zsw.netshop.manager.utils.MenuHelper;
 import com.zsw.netshop.model.entity.system.SysMenu;
@@ -22,6 +23,9 @@ public class SysMenuServiceImpl implements SysMenuService {
     @Autowired
     private SysMenuMapper sysMenuMapper;
 
+    @Autowired
+    private SysRoleMenuMapper sysRoleMenuMapper;
+
     //菜单列表
     @Override
     public List<SysMenu> findNodes() {
@@ -39,6 +43,22 @@ public class SysMenuServiceImpl implements SysMenuService {
     @Override
     public void save(SysMenu sysMenu) {
         sysMenuMapper.save(sysMenu);
+
+        //新添加子菜单，把父菜单isHalf变成半开状态 1
+        updateSysRoleMenu(sysMenu);
+    }
+
+    //新添加子菜单，把父菜单isHalf变成半开状态 1
+    private void updateSysRoleMenu(SysMenu sysMenu) {
+        //获取当前添加菜单的父菜单
+        SysMenu parentMenu = sysMenuMapper.selectParentMenu(sysMenu.getParentId());
+        if (parentMenu != null) {
+            //把父菜单isHalf变成半开状态 1
+            sysRoleMenuMapper.updateSysRoleMenuIsHalf(parentMenu.getId());
+
+            // 递归调用
+            updateSysRoleMenu(parentMenu);
+        }
     }
 
     //菜单修改
