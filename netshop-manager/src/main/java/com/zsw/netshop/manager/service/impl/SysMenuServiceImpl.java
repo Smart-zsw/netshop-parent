@@ -5,11 +5,15 @@ import com.zsw.netshop.manager.mapper.SysMenuMapper;
 import com.zsw.netshop.manager.service.SysMenuService;
 import com.zsw.netshop.manager.utils.MenuHelper;
 import com.zsw.netshop.model.entity.system.SysMenu;
+import com.zsw.netshop.model.entity.system.SysUser;
 import com.zsw.netshop.model.vo.common.ResultCodeEnum;
+import com.zsw.netshop.model.vo.system.SysMenuVo;
+import com.zsw.netshop.utils.AuthContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -56,5 +60,37 @@ public class SysMenuServiceImpl implements SysMenuService {
 
         //count等于0，直接删除
         sysMenuMapper.delete(id);
+    }
+
+    //查询用户可操作的菜单
+    @Override
+    public List<SysMenuVo> findMenusByUserId() {
+        //获取当前用户id
+        SysUser sysUser = AuthContextUtil.get();
+        Long userId = sysUser.getId();
+
+        //根据userId查询可以操作的菜单
+        List<SysMenu> syMenuList = sysMenuMapper.findMenusByUserId(userId);
+
+        //封装要求数据格式，返回
+        List<SysMenu> sysMenuList = MenuHelper.buildTree(syMenuList);
+        return this.buildMenus(syMenuList);
+    }
+
+    // 将List<SysMenu>对象转换成List<SysMenuVo>对象
+    private List<SysMenuVo> buildMenus(List<SysMenu> menus) {
+
+        List<SysMenuVo> sysMenuVoList = new LinkedList<SysMenuVo>();
+        for (SysMenu sysMenu : menus) {
+            SysMenuVo sysMenuVo = new SysMenuVo();
+            sysMenuVo.setTitle(sysMenu.getTitle());
+            sysMenuVo.setName(sysMenu.getComponent());
+            List<SysMenu> children = sysMenu.getChildren();
+            if (!CollectionUtils.isEmpty(children)) {
+                sysMenuVo.setChildren(buildMenus(children));
+            }
+            sysMenuVoList.add(sysMenuVo);
+        }
+        return sysMenuVoList;
     }
 }

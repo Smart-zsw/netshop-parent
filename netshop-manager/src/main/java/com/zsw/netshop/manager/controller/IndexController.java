@@ -1,17 +1,21 @@
 package com.zsw.netshop.manager.controller;
 
+import com.zsw.netshop.manager.service.SysMenuService;
 import com.zsw.netshop.manager.service.SysUserService;
 import com.zsw.netshop.manager.service.ValidateCodeService;
 import com.zsw.netshop.model.dto.system.LoginDto;
 import com.zsw.netshop.model.vo.common.Result;
 import com.zsw.netshop.model.vo.common.ResultCodeEnum;
 import com.zsw.netshop.model.vo.system.LoginVo;
+import com.zsw.netshop.model.vo.system.SysMenuVo;
 import com.zsw.netshop.model.vo.system.ValidateCodeVo;
 import com.zsw.netshop.utils.AuthContextUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "用户接口")
 @RestController
@@ -23,6 +27,16 @@ public class IndexController {
 
     @Autowired
     private ValidateCodeService validateCodeService;
+
+    @Autowired
+    private SysMenuService sysMenuService;
+
+    //查询用户可操作的菜单
+    @GetMapping("/menus")
+    public Result menus() {
+        List<SysMenuVo> list = sysMenuService.findMenusByUserId();
+        return Result.build(list,ResultCodeEnum.SUCCESS);
+    }
 
     //用户退出
     @GetMapping(value = "/logout")
