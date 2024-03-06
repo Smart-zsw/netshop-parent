@@ -13,4 +13,7 @@ public interface CategoryMapper {
 
     //判断每个分类是否有下层分类
     int selectCountByParentId(Long id);
+
+    //调用mapper 方法查询所有分类，返回list集合
+    List<Category> findAll();
 }
