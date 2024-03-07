@@ -1,6 +1,7 @@
 package com.zsw.netshop.manager.mapper;
 
 import com.zsw.netshop.model.entity.product.Category;
+import com.zsw.netshop.model.vo.product.CategoryExcelVo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -16,4 +17,7 @@ public interface CategoryMapper {
 
     //调用mapper 方法查询所有分类，返回list集合
     List<Category> findAll();
+
+    //批量保存的方法
+    void batchInsert(List<CategoryExcelVo> categoryList);
 }

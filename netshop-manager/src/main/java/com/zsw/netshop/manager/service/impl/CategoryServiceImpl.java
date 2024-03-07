@@ -2,6 +2,7 @@ package com.zsw.netshop.manager.service.impl;
 
 import com.alibaba.excel.EasyExcel;
 import com.zsw.netshop.common.exception.ShopException;
+import com.zsw.netshop.manager.listener.ExcelListener;
 import com.zsw.netshop.manager.mapper.CategoryMapper;
 import com.zsw.netshop.manager.service.CategoryService;
 import com.zsw.netshop.model.entity.product.Category;
@@ -12,7 +13,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,5 +87,19 @@ public class CategoryServiceImpl implements CategoryService {
             throw new ShopException(ResultCodeEnum.DATA_ERROR);
         }
 
+    }
+
+    //导入
+    @Override
+    public void importData(MultipartFile file) {
+        //监听器
+        ExcelListener<CategoryExcelVo> excelListener = new ExcelListener(categoryMapper);
+        try {
+            EasyExcel.read(file.getInputStream(), CategoryExcelVo.class,excelListener)
+                    .sheet().doRead();
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new ShopException(ResultCodeEnum.DATA_ERROR);
+        }
     }
 }
