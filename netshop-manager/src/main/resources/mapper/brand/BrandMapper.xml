@@ -11,6 +11,7 @@
         ,name,logo,create_time,update_time,is_deleted
     </sql>
 
+    <!-- 查询所有品牌 -->
     <!-- 列表 -->
     <select id="findByPage" resultMap="brandMap">
         select
