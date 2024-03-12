@@ -27,4 +27,24 @@ public class CategoryBrandServiceImpl implements CategoryBrandService {
         PageInfo<CategoryBrand> pageInfo = new PageInfo<>(list);
         return pageInfo;
     }
+
+    //添加
+    @Override
+    public void save(CategoryBrand categoryBrand) {
+        categoryBrandMapper.save(categoryBrand);
+    }
+
+    //修改
+    @Override
+    public void updateById(CategoryBrand categoryBrand) {
+        categoryBrandMapper.updateById(categoryBrand);
+    }
+
+    //删除
+    @Override
+    public void deleteById(Long id) {
+        categoryBrandMapper.deleteById(id);
+    }
+
+
 }
