@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.zsw.netshop.manager.mapper.CategoryBrandMapper;
 import com.zsw.netshop.manager.service.CategoryBrandService;
 import com.zsw.netshop.model.dto.product.CategoryBrandDto;
+import com.zsw.netshop.model.entity.product.Brand;
 import com.zsw.netshop.model.entity.product.CategoryBrand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,6 +45,13 @@ public class CategoryBrandServiceImpl implements CategoryBrandService {
     @Override
     public void deleteById(Long id) {
         categoryBrandMapper.deleteById(id);
+    }
+
+
+    //根据分类id查询对应的品牌数据
+    @Override
+    public List<Brand> findBrandByCategoryId(Long categoryId) {
+        return categoryBrandMapper.findBrandByCategoryId(categoryId);
     }
 
 

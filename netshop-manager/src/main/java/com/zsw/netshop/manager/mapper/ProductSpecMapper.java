@@ -19,4 +19,6 @@ public interface ProductSpecMapper {
 
     //修改
     void delete(Long id);
+
+    List<ProductSpec> findAll();
 }

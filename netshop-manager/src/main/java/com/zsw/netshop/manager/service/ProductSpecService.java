@@ -3,6 +3,8 @@ package com.zsw.netshop.manager.service;
 import com.github.pagehelper.PageInfo;
 import com.zsw.netshop.model.entity.product.ProductSpec;
 
+import java.util.List;
+
 public interface ProductSpecService {
 
     //列表
@@ -16,4 +18,6 @@ public interface ProductSpecService {
 
     //删除
     void deleteById(Long id);
+
+    List<ProductSpec> findAll();
 }

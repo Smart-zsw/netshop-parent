@@ -3,11 +3,14 @@ package com.zsw.netshop.manager.controller;
 import com.github.pagehelper.PageInfo;
 import com.zsw.netshop.manager.service.CategoryBrandService;
 import com.zsw.netshop.model.dto.product.CategoryBrandDto;
+import com.zsw.netshop.model.entity.product.Brand;
 import com.zsw.netshop.model.entity.product.CategoryBrand;
 import com.zsw.netshop.model.vo.common.Result;
 import com.zsw.netshop.model.vo.common.ResultCodeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/admin/product/categoryBrand")
@@ -15,6 +18,13 @@ public class CategoryBrandController {
 
     @Autowired
     private CategoryBrandService categoryBrandService;
+
+    //根据分类id查询对应的品牌数据
+    @GetMapping("/findBrandByCategoryId/{categoryId}")
+    public Result findBrandByCategoryId(@PathVariable Long categoryId) {
+        List<Brand> list = categoryBrandService.findBrandByCategoryId(categoryId);
+        return Result.build(list,ResultCodeEnum.SUCCESS);
+    }
 
     //删除
     @DeleteMapping("/deleteById/{id}")
