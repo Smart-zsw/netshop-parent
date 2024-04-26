@@ -11,6 +11,14 @@
         id,name,image_url,parent_id,status,order_num,create_time,update_time,is_deleted
     </sql>
 
+    <select id="findAll" resultMap="categoryMap">
+        select <include refid="columns" />
+        from category
+        where
+        is_deleted = 0
+        order by order_num
+    </select>
+
     <!-- 查询所有的一级分类 -->
     <select id="selectOneCategory" resultMap="categoryMap">
         select <include refid="columns" />
